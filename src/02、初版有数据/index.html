@@ -1363,6 +1363,8 @@
         const requirementStatuses = ['待评审', '评审通过', '开发中', '待验收', '已完成', '已驳回', '已搁置'];
         const defectStatuses = ['待处理', '修复中', '待验证', '已关闭', '重新打开', '暂缓'];
 
+        localStorage.removeItem('pm_system_data');
+
         let planPage = 1, reqPage = 1, defectPage = 1;
         const pageSize = 10;
 
@@ -1584,11 +1586,11 @@
             tbody.innerHTML = filtered.map(req => `
                 <tr>
                     <td><input type="checkbox" class="checkbox" data-id="${req.id}" ${selectedIds.has(req.id) ? 'checked' : ''} onclick="toggleSelect('req', ${req.id})"></td>
-                    <td>${req.code}</td>
+                    <td>R${String(req.id).padStart(4, '0')}</td>
                     <td>${req.name}</td>
                     <td><span class="priority-${req.priority === '高' ? 'high' : req.priority === '中' ? 'medium' : 'low'}">${req.priority}</span></td>
                     <td><span class="status-badge status-${getClassFromStatus(req.status)}">${req.status}</span></td>
-                    <td>${req.deadline || '-'}</td>
+                    <td>${req.createTime || '-'}</td>
                     <td>
                         <button class="btn-edit" onclick="editRequirement(${req.id})">编辑</button>
                         <button class="btn-danger" onclick="deleteRequirement(${req.id})">删除</button>
@@ -1606,7 +1608,7 @@
             const statusFilter = document.getElementById('defectStatusFilter').value;
             
             let filtered = DB.defects.filter(d => {
-                const matchSearch = d.title.toLowerCase().includes(search);
+                const matchSearch = d.name.toLowerCase().includes(search);
                 const matchStatus = !statusFilter || d.status === statusFilter;
                 return matchSearch && matchStatus;
             });
@@ -1625,11 +1627,11 @@
             tbody.innerHTML = filtered.map(defect => `
                 <tr>
                     <td><input type="checkbox" class="checkbox" data-id="${defect.id}" ${selectedIds.has(defect.id) ? 'checked' : ''} onclick="toggleSelect('defect', ${defect.id})"></td>
-                    <td>${defect.code}</td>
-                    <td>${defect.title}</td>
+                    <td>D${String(defect.id).padStart(4, '0')}</td>
+                    <td>${defect.name}</td>
                     <td><span class="priority-${defect.severity === '致命' || defect.severity === '严重' ? 'high' : defect.severity === '一般' ? 'medium' : 'low'}">${defect.severity}</span></td>
                     <td><span class="status-badge status-${getClassFromStatus(defect.status)}">${defect.status}</span></td>
-                    <td>${defect.module}</td>
+                    <td>${defect.owner || '-'}</td>
                     <td>
                         <button class="btn-edit" onclick="editDefect(${defect.id})">编辑</button>
                         <button class="btn-danger" onclick="deleteDefect(${defect.id})">删除</button>
@@ -1681,8 +1683,8 @@
             } else {
                 highDefectsBody.innerHTML = highDefectList.map(d => `
                     <tr>
-                        <td>${d.code}</td>
-                        <td>${d.title}</td>
+                        <td>D${String(d.id).padStart(4, '0')}</td>
+                        <td>${d.name}</td>
                         <td><span class="priority-high">${d.severity}</span></td>
                         <td><span class="status-badge status-${getClassFromStatus(d.status)}">${d.status}</span></td>
                     </tr>
@@ -2181,9 +2183,9 @@
                 if (id) {
                     const defect = DB.defects.find(d => d.id === id);
                     if (defect) {
-                        document.getElementById('fieldName').value = defect.title;
+                        document.getElementById('fieldName').value = defect.name;
                         document.getElementById('fieldSeverity').value = defect.severity;
-                        document.getElementById('fieldModule').value = defect.module;
+                        document.getElementById('fieldModule').value = defect.owner || '';
                         document.getElementById('fieldStatus').value = defect.status;
                         document.getElementById('fieldNotes').value = defect.description || '';
                     }
@@ -2326,9 +2328,9 @@
                 const data = {
                     id: editingId || Date.now(),
                     code: editingId ? DB.defects.find(d => d.id === editingId).code : generateCode('D'),
-                    title: document.getElementById('fieldName').value.trim(),
+                    name: document.getElementById('fieldName').value.trim(),
                     severity: document.getElementById('fieldSeverity').value,
-                    module: document.getElementById('fieldModule').value.trim(),
+                    owner: document.getElementById('fieldModule').value.trim(),
                     status: document.getElementById('fieldStatus').value,
                     description: document.getElementById('fieldNotes').value.trim()
                 };

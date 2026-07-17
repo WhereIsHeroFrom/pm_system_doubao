@@ -27,8 +27,10 @@ const DB = {
         { id: 3, name: '数据导出格式错误', description: 'Excel导出时日期格式显示异常', severity: '一般', status: '待验证', owner: '王五', foundTime: '2026-07-07 14:00', fixVersion: 'V1.0' },
         { id: 4, name: '搜索功能大小写敏感', description: '搜索时区分大小写导致结果不准确', severity: '轻微', status: '已关闭', owner: '赵六', foundTime: '2026-07-04 11:00', fixVersion: 'V1.0' },
         { id: 5, name: '页面刷新后选中状态丢失', description: '刷新页面后之前选中的复选框全部清空', severity: '严重', status: '待处理', owner: '张三', foundTime: '2026-07-08 09:00', fixVersion: 'V1.1' },
-        { id: 6, name: '移动端按钮点击区域过小', description: '手机端按钮点击区域太小容易误触', severity: '致命', status: '修复中', owner: '李四', foundTime: '2026-07-09 10:00', fixVersion: 'V1.1' },
+        { id: 6, name: '移动端按钮点击区域过小', description: '手机端按钮点击区域太小容易误触', severity: '一般', status: '修复中', owner: '李四', foundTime: '2026-07-09 10:00', fixVersion: 'V1.1' },
         { id: 7, name: '图表数据加载缓慢', description: '大数据量时图表渲染需要5秒以上', severity: '一般', status: '重新打开', owner: '王五', foundTime: '2026-07-03 14:00', fixVersion: 'V1.2' },
-        { id: 8, name: '导出文件名中文乱码', description: '导出的Excel文件中文名显示为乱码', severity: '轻微', status: '暂缓', owner: '赵六', foundTime: '2026-07-10 11:00', fixVersion: 'V1.2' }
+        { id: 8, name: '导出文件名中文乱码', description: '导出的Excel文件中文名显示为乱码', severity: '轻微', status: '暂缓', owner: '赵六', foundTime: '2026-07-10 11:00', fixVersion: 'V1.2' },
+        { id: 9, name: '页面标题显示异常', description: '部分页面标题显示为乱码', severity: '轻微', status: '待处理', owner: '张三', foundTime: '2026-07-11 09:00', fixVersion: 'V1.2' },
+        { id: 10, name: '按钮文字对齐偏移', description: '部分按钮文字垂直对齐有偏差', severity: '轻微', status: '待处理', owner: '李四', foundTime: '2026-07-12 10:00', fixVersion: 'V1.2' }
     ]
 };
